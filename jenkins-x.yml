@@ -1,0 +1,31 @@
+buildPack: none
+pipelineConfig:
+  pipelines:
+    pullRequest:
+      pipeline:
+        agent:
+          image: gcr.io/jenkinsxio/builder-go
+        stages:
+        - name: ci
+          steps:
+          - name: test
+            command: make
+            args:
+            - test
+    release:
+      pipeline:
+        agent:
+          image: gcr.io/jenkinsxio/builder-go
+        stages:
+        - name: release
+          steps:
+          - name: changelog
+            command: jx
+            args:
+            - step
+            - changelog
+            - --verbose
+            - --version
+            - $VERSION
+            - --rev
+            - $PULL_BASE_SHA
