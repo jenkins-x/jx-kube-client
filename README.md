@@ -8,6 +8,7 @@ Here's an example which also uses [Jenkins X logging](https://github.com/jenkins
 import (
     "github.com/jenkins-x/jx-kube-client/pkg/kubeclient"
     "github.com/jenkins-x/jx-logging/pkg/log"
+    "k8s.io/client-go/kubernetes"
 )
 
 func main() {
