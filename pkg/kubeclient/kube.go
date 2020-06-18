@@ -21,16 +21,31 @@ import (
 const (
 	// PodNamespaceFile the file path and name for pod namespace
 	PodNamespaceFile = "/var/run/secrets/kubernetes.io/serviceaccount/namespace"
+
+	DefaultKubeConfigFile = "config"
+	DefaultKubeConfigPath = ".kube"
 )
 
 type factory struct {
 	kubeConfigCache *string
+	kubeConfigFile  string
+	kubeConfigPath  string
 }
 
 // NewFactory creates a factory with the default Kubernetes resources defined
 func NewFactory() Factory {
 	f := &factory{}
+	f.kubeConfigFile = DefaultKubeConfigFile
+	f.kubeConfigPath = DefaultKubeConfigPath
 	return f
+}
+
+func (f *factory) KubeConfigFile(fileName string) {
+	f.kubeConfigFile = fileName
+}
+
+func (f *factory) KubeConfigPath(path string) {
+	f.kubeConfigPath = path
 }
 
 // CreateKubeConfig figures out the kubernetes config from environment variables or default locations whether in or out
@@ -81,7 +96,7 @@ func (f *factory) createKubeConfigText() *string {
 	}
 	text := ""
 	if home := homeDir(); home != "" {
-		text = filepath.Join(home, ".kube", "config")
+		text = filepath.Join(home, f.kubeConfigPath, f.kubeConfigFile)
 	}
 	kubeconfig = &text
 	f.kubeConfigCache = kubeconfig

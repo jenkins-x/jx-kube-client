@@ -24,3 +24,5 @@ importfmt: get-fmt-deps
 
 modtidy:
 	$(GO) mod tidy
+
+check: fmt build test
