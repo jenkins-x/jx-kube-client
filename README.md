@@ -1,5 +1,7 @@
 # jx-kube-client
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/jenkins-x/jx-kube-client)](https://goreportcard.com/report/github.com/jenkins-x/jx-kube-client)
+
 Used to create a kubernetes client from within a Kubernetes cluster or outside using ~/.kube/config
 
 Here's an example which also uses [Jenkins X logging](https://github.com/jenkins-x/jx-logging)
