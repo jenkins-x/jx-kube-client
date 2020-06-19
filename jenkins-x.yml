@@ -12,6 +12,9 @@ pipelineConfig:
             command: make
             args:
             - test
+          - name: lint
+            command: ./hack/linter.sh
+            image: golang:1.13.10
     release:
       pipeline:
         agent:

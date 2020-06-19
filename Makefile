@@ -22,6 +22,11 @@ importfmt: get-fmt-deps
 	@echo "Formatting the imports..."
 	goimports -w $(GO_DEPENDENCIES)
 
+.PHONY: lint
+lint: ## Lint the code
+	./hack/linter.sh
+
+.PHONY: modtidy
 modtidy:
 	$(GO) mod tidy
 
