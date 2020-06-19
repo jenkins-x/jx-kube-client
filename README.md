@@ -1,6 +1,6 @@
 # jx-kube-client
 
-Used to create a kubernetes client from within a Kubernetes cluster or ouside using ~/.kube/config
+Used to create a kubernetes client from within a Kubernetes cluster or outside using ~/.kube/config
 
 Here's an example which also uses [Jenkins X logging](https://github.com/jenkins-x/jx-logging)
 
@@ -25,6 +25,10 @@ func main() {
     }
 }
 ```
+To change the location of the kube config use the following instead:
 
+```go  
+    cfg, err := f.CreateKubeConfigFromCustomLocation(kubeConfigPath, kubeConfigFile)
+```
 
 Part of Jenkins X shared libraries.

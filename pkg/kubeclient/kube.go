@@ -21,10 +21,12 @@ import (
 const (
 	// PodNamespaceFile the file path and name for pod namespace
 	PodNamespaceFile = "/var/run/secrets/kubernetes.io/serviceaccount/namespace"
+
+	DefaultKubeConfigFile = "config"
+	DefaultKubeConfigPath = ".kube"
 )
 
 type factory struct {
-	kubeConfigCache *string
 }
 
 // NewFactory creates a factory with the default Kubernetes resources defined
@@ -33,9 +35,17 @@ func NewFactory() Factory {
 	return f
 }
 
+func (f *factory) CreateKubeConfigFromCustomLocation(kubeConfigPath, kubeConfigFile string) (*rest.Config, error) {
+	return f.createKubeConfig(kubeConfigPath, kubeConfigFile)
+}
+
+func (f *factory) CreateKubeConfig() (*rest.Config, error) {
+	return f.createKubeConfig(DefaultKubeConfigPath, DefaultKubeConfigFile)
+}
+
 // CreateKubeConfig figures out the kubernetes config from environment variables or default locations whether in or out
 // of cluster
-func (f *factory) CreateKubeConfig() (*rest.Config, error) {
+func (f *factory) createKubeConfig(kubeConfigPath, kubeConfigFile string) (*rest.Config, error) {
 	masterURL := ""
 	kubeConfigEnv := os.Getenv("KUBECONFIG")
 	if kubeConfigEnv != "" {
@@ -44,7 +54,7 @@ func (f *factory) CreateKubeConfig() (*rest.Config, error) {
 			&clientcmd.ClientConfigLoadingRules{Precedence: pathList},
 			&clientcmd.ConfigOverrides{ClusterInfo: clientcmdapi.Cluster{Server: masterURL}}).ClientConfig()
 	}
-	kubeconfig := f.createKubeConfigText()
+	kubeconfig := f.createKubeConfigPath(kubeConfigPath, kubeConfigFile)
 	var config *rest.Config
 	var err error
 	if kubeconfig != nil {
@@ -74,18 +84,12 @@ func (f *factory) CreateKubeConfig() (*rest.Config, error) {
 	return config, nil
 }
 
-func (f *factory) createKubeConfigText() *string {
-	var kubeconfig *string
-	if f.kubeConfigCache != nil {
-		return f.kubeConfigCache
-	}
-	text := ""
+func (f *factory) createKubeConfigPath(kubeConfigPath, kubeConfigFile string) *string {
+	path := ""
 	if home := homeDir(); home != "" {
-		text = filepath.Join(home, ".kube", "config")
+		path = filepath.Join(home, kubeConfigPath, kubeConfigFile)
 	}
-	kubeconfig = &text
-	f.kubeConfigCache = kubeconfig
-	return kubeconfig
+	return &path
 }
 
 func fileExists(path string) (bool, error) {

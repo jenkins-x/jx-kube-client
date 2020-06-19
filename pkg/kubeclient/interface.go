@@ -9,4 +9,5 @@ import (
 type Factory interface {
 	// CreateKubeConfig creates the kubernetes configuration
 	CreateKubeConfig() (*rest.Config, error)
+	CreateKubeConfigFromCustomLocation(string, string) (*rest.Config, error)
 }
