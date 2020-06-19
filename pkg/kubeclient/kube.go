@@ -126,13 +126,16 @@ func CurrentContext(config *api.Config) *api.Context {
 }
 
 // CurrentNamespace returns the current namespace in the context
-func CurrentNamespace() string {
+func CurrentNamespace() (string, error) {
 	config, _, err := LoadConfig()
+	if err != nil {
+		return "", err
+	}
 	ctx := CurrentContext(config)
 	if ctx != nil {
 		n := ctx.Namespace
 		if n != "" {
-			return n
+			return n, nil
 		}
 	}
 	// if we are in a pod lets try load the pod namespace file
@@ -140,10 +143,10 @@ func CurrentNamespace() string {
 	if err == nil {
 		n := string(data)
 		if n != "" {
-			return n
+			return n, nil
 		}
 	}
-	return "default"
+	return "default", nil
 }
 
 // LoadConfig loads the Kubernetes configuration
