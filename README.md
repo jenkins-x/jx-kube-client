@@ -25,11 +25,10 @@ func main() {
     }
 }
 ```
-To change the location of the kube config use the following:
+To change the location of the kube config use the following instead:
 
 ```go  
-    f.KubeConfigPath(kubeConfigPath)
-    f.KubeConfigFile(kubeConfigFile)
+    cfg, err := f.CreateKubeConfigFromCustomLocation(kubeConfigPath, kubeConfigFile)
 ```
 
 Part of Jenkins X shared libraries.
