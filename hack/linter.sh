@@ -34,12 +34,12 @@ golangci-lint run \
   -E varcheck \
   -E unparam \
   -E megacheck \
+  -E goconst \
+  -E gocritic \
+  -E govet \
+  -E maligned \
+  -E golint \
   --timeout 15m \
   --verbose \
   --build-tags build
 
-#  -E goconst \
-#  -E gocritic \
-#  -E govet \
-#  -E maligned \
-#  -E golint \
