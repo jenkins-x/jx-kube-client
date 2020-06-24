@@ -153,11 +153,11 @@ func CurrentNamespace() (string, error) {
 func LoadConfig() (*api.Config, *clientcmd.PathOptions, error) {
 	po := clientcmd.NewDefaultPathOptions()
 	if po == nil {
-		return nil, po, fmt.Errorf("Could not find any default path options for the kubeconfig file usually found at ~/.kube/config")
+		return nil, po, fmt.Errorf("could not find any default path options for the kubeconfig file usually found at ~/.kube/config")
 	}
 	config, err := po.GetStartingConfig()
 	if err != nil {
-		return nil, po, fmt.Errorf("Could not load the kube config file %s due to %s", po.GetDefaultFilename(), err)
+		return nil, po, fmt.Errorf("could not load the kube config file %s due to %s", po.GetDefaultFilename(), err)
 	}
 	return config, po, err
 }
