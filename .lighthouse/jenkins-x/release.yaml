@@ -31,17 +31,11 @@ spec:
               memory: 600Mi
         - name: build-make-build
           resources: {}
-        - name: check-registry
-          resources: {}
-        - name: build-container-build
-          resources: {}
         - name: promote-changelog
           resources: {}
-        - name: promote-helm-release
-          resources: {}
-        - name: promote-jx-promote
-          resources: {}
+        - image: uses:jenkins-x/jx3-pipeline-catalog/tasks/updatebot/release.yaml@versionStream
+          name: ""
   podTemplate: {}
   serviceAccountName: tekton-bot
-  timeout: 12h0m0s
+  timeout: 45m0s
 status: {}

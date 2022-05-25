@@ -29,13 +29,7 @@ spec:
               memory: 600Mi
         - name: build-make-linux
           resources: {}
-        - name: check-registry
-          resources: {}
-        - name: build-container-build
-          resources: {}
-        - name: promote-jx-preview
-          resources: {}
   podTemplate: {}
   serviceAccountName: tekton-bot
-  timeout: 12h0m0s
+  timeout: 30m0s
 status: {}
