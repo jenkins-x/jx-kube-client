@@ -3,10 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+
 	"github.com/jenkins-x/jx-kube-client/v3/pkg/kubeclient"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
-	"os"
 )
 
 func main() {
@@ -34,7 +35,7 @@ func main() {
 
 	fmt.Printf("has %d namespaces:\n", len(ns.Items))
 
-	for _, n := range ns.Items {
-		fmt.Printf("  %s\n", n.Name)
+	for i := range ns.Items {
+		fmt.Printf("  %s\n", ns.Items[i].Name)
 	}
 }

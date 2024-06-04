@@ -40,8 +40,7 @@ func (t *Tracer) RoundTrip(req *http.Request) (*http.Response, error) {
 		return nil, err
 	}
 	os.Stderr.Write(b)
-	os.Stderr.Write([]byte("---"))
-	os.Stderr.Write([]byte{'\n'})
+	os.Stderr.WriteString("---\n")
 
 	return resp, err
 }

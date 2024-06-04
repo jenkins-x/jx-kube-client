@@ -2,12 +2,10 @@ package kubeclient
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
 
-	"github.com/pkg/errors"
 	"k8s.io/client-go/tools/clientcmd/api"
 
 	"k8s.io/client-go/rest"
@@ -100,7 +98,7 @@ func fileExists(path string) (bool, error) {
 	if os.IsNotExist(err) {
 		return false, nil
 	}
-	return true, errors.Wrapf(err, "failed to check if file exists %s", path)
+	return true, fmt.Errorf("failed to check if file exists %s: %w", path, err)
 }
 
 func homeDir() string {
@@ -139,7 +137,7 @@ func CurrentNamespace() (string, error) {
 		}
 	}
 	// if we are in a pod lets try load the pod namespace file
-	data, err := ioutil.ReadFile(PodNamespaceFile)
+	data, err := os.ReadFile(PodNamespaceFile)
 	if err == nil {
 		n := string(data)
 		if n != "" {
@@ -153,7 +151,7 @@ func CurrentNamespace() (string, error) {
 func LoadConfig() (*api.Config, *clientcmd.PathOptions, error) {
 	po := clientcmd.NewDefaultPathOptions()
 	if po == nil {
-		return nil, po, fmt.Errorf("could not find any default path options for the kubeconfig file usually found at ~/.kube/config")
+		return nil, nil, fmt.Errorf("could not find any default path options for the kubeconfig file usually found at ~/.kube/config")
 	}
 	config, err := po.GetStartingConfig()
 	if err != nil {
