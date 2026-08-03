@@ -1,7 +1,7 @@
 module github.com/jenkins-x/jx-kube-client/v3
 
 require (
-	k8s.io/apimachinery v0.36.0
+	k8s.io/apimachinery v0.36.3
 	k8s.io/client-go v0.36.0
 )
 
